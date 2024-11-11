@@ -9,7 +9,7 @@ public class ItemRequestMapper {
         return ItemRequestDto.builder()
                 .id(itemRequest.getId())
                 .description(itemRequest.getDescription())
-                .requestor(UserMapper.mapTo(itemRequest.getRequestor()))
+                .requestor(UserMapper.mapToDto(itemRequest.getRequestor()))
                 .created(itemRequest.getCreated())
                 .build();
     }
@@ -17,7 +17,7 @@ public class ItemRequestMapper {
     public static ItemRequest mapFrom(ItemRequestDto itemRequestDto) {
         return ItemRequest.builder()
                 .description(itemRequestDto.getDescription())
-                .requestor(UserMapper.mapFrom(itemRequestDto.getRequestor()))
+                .requestor(UserMapper.mapToUser(itemRequestDto.getRequestor()))
                 .created(itemRequestDto.getCreated())
                 .build();
     }

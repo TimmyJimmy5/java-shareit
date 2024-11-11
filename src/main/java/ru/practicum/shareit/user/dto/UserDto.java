@@ -11,6 +11,7 @@ import ru.practicum.shareit.utility.MinId;
 public class UserDto {
     @MinId
     private Long id;
+    @NotNull
     private String name;
     @Email
     @NotNull

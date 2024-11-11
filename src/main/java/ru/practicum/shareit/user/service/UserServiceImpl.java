@@ -17,15 +17,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto get(Long id) {
         return userRepository.findOne(id)
-                .map(UserMapper::mapTo)
+                .map(UserMapper::mapToDto)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID = " + id + " не найден"));
     }
 
     @Override
     public UserDto create(UserDto request) {
         checkSuchEmail(request.getEmail());
-        User user = userRepository.save(UserMapper.mapFrom(request));
-        return UserMapper.mapTo(user);
+        User user = userRepository.save(UserMapper.mapToUser(request));
+        return UserMapper.mapToDto(user);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
         if (request.getEmail() != null)
             user.setEmail(request.getEmail());
-        return UserMapper.mapTo(user);
+        return UserMapper.mapToDto(user);
     }
 
     @Override

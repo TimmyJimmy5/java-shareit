@@ -33,4 +33,10 @@ public class ErrorHandler {
     public Map<String, String> minIdException(final MinimalIdException e) {
         return Map.of("error:", e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> badInputException(final BadInputException e) {
+        return Map.of("error:", e.getMessage());
+    }
 }
