@@ -13,7 +13,6 @@ import ru.practicum.shareit.utility.MinId;
  * TODO Sprint add-controllers.
  */
 @Data
-@Builder
 public class ItemDto {
     @MinId
     private Long id;
