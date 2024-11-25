@@ -9,7 +9,7 @@ import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.LeaveCommentException;
 import ru.practicum.shareit.exception.NoPermissionException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.item.dto.CommentDTO;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.CommentResponse;
 import ru.practicum.shareit.item.dto.ItemResponse;
 import ru.practicum.shareit.item.mapper.CommentMapper;
@@ -60,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public CommentResponse createComment(Long itemId, Long bookerId, CommentDTO commentDTO) {
+    public CommentResponse createComment(Long itemId, Long bookerId, CommentDto commentDTO) {
         Booking booking = bookingRepository.findByItem_IdAndBooker_Id(itemId, bookerId)
                 .orElseThrow(() -> new NotFoundException("Бронирование не найдено"));
         if (bookingMapper.getState(booking).equals(BookingState.PAST)) {

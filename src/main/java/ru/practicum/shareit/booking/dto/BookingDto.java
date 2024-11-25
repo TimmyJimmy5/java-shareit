@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Builder
-public class BookingDTO {
+public class BookingDto {
     @MinId
     private Long id;
     @NotNull(message = "null недопустимое значение для start")

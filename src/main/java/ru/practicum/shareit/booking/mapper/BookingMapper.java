@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import ru.practicum.shareit.booking.dto.BookingDTO;
+import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponse;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingState;
@@ -18,7 +18,7 @@ public interface BookingMapper {
 
     List<BookingResponse> toBookingResponseList(List<Booking> bookings);
 
-    Booking toBooking(BookingDTO bookingDTO);
+    Booking toBooking(BookingDto bookingDTO);
 
     default BookingState getState(Booking booking) {
         LocalDateTime now = LocalDateTime.now();

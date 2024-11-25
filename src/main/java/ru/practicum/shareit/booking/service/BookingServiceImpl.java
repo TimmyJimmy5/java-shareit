@@ -2,7 +2,7 @@ package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.dto.BookingDTO;
+import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponse;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
@@ -43,7 +43,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse create(Long userId, BookingDTO request) {
+    public BookingResponse create(Long userId, BookingDto request) {
         checkTimeIntersection(request);
         if (!request.getStart().isBefore(request.getEnd())) {
             throw new DateTimeValueInvalid("Некорректно заданы значения начала и окончания бронирования");
@@ -65,7 +65,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse patch(Long id, Long userId, BookingDTO request) {
+    public BookingResponse patch(Long id, Long userId, BookingDto request) {
         if (request.getStart() != null || request.getEnd() != null) {
             checkTimeIntersection(request);
         }
@@ -159,7 +159,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    private void checkTimeIntersection(BookingDTO request) {
+    private void checkTimeIntersection(BookingDto request) {
         bookingRepository.findAllByItem_Id(request.getItemId()).stream()
                 .peek(booking -> {
                     if (Intersection.timeIntersection(

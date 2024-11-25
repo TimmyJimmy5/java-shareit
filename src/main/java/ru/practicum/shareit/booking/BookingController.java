@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.shareit.booking.dto.BookingDTO;
+import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponse;
 import ru.practicum.shareit.booking.model.BookingState;
 import ru.practicum.shareit.booking.service.BookingService;
@@ -22,9 +22,6 @@ import ru.practicum.shareit.booking.service.BookingService;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * TODO Sprint add-bookings.
- */
 @RestController
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
@@ -48,7 +45,7 @@ public class BookingController {
 
     @PostMapping
     public BookingResponse create(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                                  @Valid @RequestBody BookingDTO request) {
+                                  @Valid @RequestBody BookingDto request) {
         System.out.println(LocalDateTime.now());
         System.out.println(request.getStart());
         return bookingService.create(userId, request);
@@ -57,7 +54,7 @@ public class BookingController {
     @PatchMapping("/{id}")
     public BookingResponse patch(@PathVariable Long id,
                                  @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                                 @RequestBody(required = false) BookingDTO request,
+                                 @RequestBody(required = false) BookingDto request,
                                  @RequestParam(value = "approved", required = false) Boolean isAccept) {
         if (isAccept != null) {
             return bookingService.acceptBooking(id, userId, isAccept);

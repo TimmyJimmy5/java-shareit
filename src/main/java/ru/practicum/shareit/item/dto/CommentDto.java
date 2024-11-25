@@ -3,7 +3,7 @@ package ru.practicum.shareit.item.dto;
 import lombok.Data;
 
 @Data
-public class CommentDTO {
+public class CommentDto {
     private Long id;
     private String text;
 }

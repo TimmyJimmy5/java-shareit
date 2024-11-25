@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.shareit.item.dto.CommentDTO;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.CommentResponse;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemResponse;
@@ -72,7 +72,7 @@ public class ItemController {
     @PostMapping("/{id}/comment")
     public CommentResponse createComment(@Positive @PathVariable Long id,
                                          @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long bookerId,
-                                         @Valid @RequestBody CommentDTO request) {
+                                         @Valid @RequestBody CommentDto request) {
         return itemService.createComment(id, bookerId, request);
     }
 }
