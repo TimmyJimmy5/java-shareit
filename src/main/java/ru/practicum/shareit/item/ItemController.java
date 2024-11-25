@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.practicum.shareit.item.dto.CommentDTO;
+import ru.practicum.shareit.item.dto.CommentResponse;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemResponse;
 import ru.practicum.shareit.item.service.ItemService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,39 +33,46 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/{id}")
-    public ItemDto get(@PathVariable Long id) {
-        return itemService.getOne(id);
+    public ItemResponse get(@PathVariable Long id) {
+        return itemService.get(id);
     }
 
     @GetMapping
-    public List<ItemDto> getAllForUser(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemResponse> getAllForUser(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getAllForUser(userId);
     }
 
     @PostMapping
-    public ItemDto create(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                          @Valid @RequestBody ItemDto request) {
+    public ItemResponse create(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
+                               @Valid @RequestBody ItemDto request) {
         return itemService.create(userId, request);
     }
 
     @PatchMapping("/{id}")
-    public ItemDto patch(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                         @PathVariable Long id,
-                         @RequestBody ItemDto request) {
+    public ItemResponse patch(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
+                              @PathVariable Long id,
+                              @RequestBody ItemDto request) {
         return itemService.patch(id, userId, request);
-    }
-
-    @GetMapping("/search")
-    public List<ItemDto> search(@RequestParam("text") String text) {
-        if (text == null)
-            return null;
-
-        return itemService.getForSearch(text.toLowerCase());
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id,
                        @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId) {
         itemService.delete(id, userId);
+    }
+
+    @GetMapping("/search")
+    public List<ItemResponse> search(@RequestParam("text") String text) {
+        if (text.isBlank())
+            return new ArrayList<>();
+
+        return itemService.getForSearch(text.toLowerCase());
+    }
+
+    @PostMapping("/{id}/comment")
+    public CommentResponse createComment(@Positive @PathVariable Long id,
+                                         @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long bookerId,
+                                         @Valid @RequestBody CommentDTO request) {
+        return itemService.createComment(id, bookerId, request);
     }
 }

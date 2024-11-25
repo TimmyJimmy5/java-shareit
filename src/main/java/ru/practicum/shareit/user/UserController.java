@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserResponse;
 import ru.practicum.shareit.user.service.UserService;
 
 /**
@@ -23,17 +24,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public UserDto get(@PathVariable Long id) {
+    public UserResponse get(@PathVariable Long id) {
         return userService.get(id);
     }
 
     @PostMapping
-    public UserDto create(@Valid @RequestBody UserDto request) {
+    public UserResponse create(@Valid @RequestBody UserDto request) {
         return userService.create(request);
     }
 
     @PatchMapping("/{id}")
-    public UserDto patch(@PathVariable Long id, @RequestBody UserDto request) {
+    public UserResponse patch(@PathVariable Long id, @RequestBody UserDto request) {
         return userService.patch(id, request);
     }
 

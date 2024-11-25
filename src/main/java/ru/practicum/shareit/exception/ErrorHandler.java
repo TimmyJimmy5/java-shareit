@@ -39,4 +39,28 @@ public class ErrorHandler {
     public Map<String, String> badInputException(final BadInputException e) {
         return Map.of("error:", e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> dateTimeValueInvalid(final DateTimeValueInvalid e) {
+        return Map.of("error:", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> itemIsUnavailableException(final ItemIsUnavailableException e) {
+        return Map.of("error:", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> dateTimeAlreadyTakenException(final DateTimeAlreadyTakenException e) {
+        return Map.of("error:", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> leaveCommentException(final LeaveCommentException e) {
+        return Map.of("error:", e.getMessage());
+    }
 }
