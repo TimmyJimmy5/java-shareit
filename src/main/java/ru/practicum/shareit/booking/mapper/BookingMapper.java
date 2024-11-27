@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingResponse;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingState;
 
@@ -14,9 +14,9 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface BookingMapper {
     @Mapping(target = "state", source = ".")
-    BookingResponse toBookingResponse(Booking booking);
+    BookingResponseDto toBookingResponse(Booking booking);
 
-    List<BookingResponse> toBookingResponseList(List<Booking> bookings);
+    List<BookingResponseDto> toBookingResponseList(List<Booking> bookings);
 
     Booking toBooking(BookingDto bookingDTO);
 

@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingResponse;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingState;
@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingMapper bookingMapper;
 
     @Override
-    public BookingResponse getForUser(Long id, Long userId) {
+    public BookingResponseDto getForUser(Long id, Long userId) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Бронирование> с ID = " + id + " не найден"));
         if (booking.getBooker().getId().equals(userId) || booking.getItem().getOwner().getId().equals(userId)) {
@@ -43,7 +43,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse create(Long userId, BookingDto request) {
+    public BookingResponseDto create(Long userId, BookingDto request) {
         checkTimeIntersection(request);
         if (!request.getStart().isBefore(request.getEnd())) {
             throw new DateTimeValueInvalid("Некорректно заданы значения начала и окончания бронирования");
@@ -65,7 +65,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse patch(Long id, Long userId, BookingDto request) {
+    public BookingResponseDto patch(Long id, Long userId, BookingDto request) {
         if (request.getStart() != null || request.getEnd() != null) {
             checkTimeIntersection(request);
         }
@@ -114,7 +114,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse acceptBooking(Long id, Long userId, Boolean isAccept) {
+    public BookingResponseDto acceptBooking(Long id, Long userId, Boolean isAccept) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Бронирование> с ID = " + id + " не найден"));
         if (booking.getItem().getOwner().getId().equals(userId)) {
@@ -127,7 +127,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponse> getAllForBooker(Long bookerId, BookingState state) {
+    public List<BookingResponseDto> getAllForBooker(Long bookerId, BookingState state) {
         userRepository.findById(bookerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID = " + bookerId + " не найден"));
 
@@ -140,7 +140,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponse> getAllForOwner(Long ownerId, BookingState state) {
+    public List<BookingResponseDto> getAllForOwner(Long ownerId, BookingState state) {
         userRepository.findById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID = " + ownerId + " не найден"));
         List<Long> itemsId = itemRepository.findAllByOwnerId(ownerId).stream()

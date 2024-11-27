@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingResponse;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.BookingState;
 import ru.practicum.shareit.booking.service.BookingService;
 
@@ -29,14 +29,14 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping("/{id}")
-    public BookingResponse getForUser(@PathVariable Long id,
-                                      @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public BookingResponseDto getForUser(@PathVariable Long id,
+                                         @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId) {
         return bookingService.getForUser(id, userId);
     }
 
     @GetMapping
-    public List<BookingResponse> getAllForBooker(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long bookerId,
-                                                 @RequestParam(
+    public List<BookingResponseDto> getAllForBooker(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long bookerId,
+                                                    @RequestParam(
                                                          value = "state",
                                                          required = false,
                                                          defaultValue = "ALL") BookingState state) {
@@ -44,18 +44,18 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingResponse create(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                                  @Valid @RequestBody BookingDto request) {
+    public BookingResponseDto create(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
+                                     @Valid @RequestBody BookingDto request) {
         System.out.println(LocalDateTime.now());
         System.out.println(request.getStart());
         return bookingService.create(userId, request);
     }
 
     @PatchMapping("/{id}")
-    public BookingResponse patch(@PathVariable Long id,
-                                 @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                                 @RequestBody(required = false) BookingDto request,
-                                 @RequestParam(value = "approved", required = false) Boolean isAccept) {
+    public BookingResponseDto patch(@PathVariable Long id,
+                                    @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
+                                    @RequestBody(required = false) BookingDto request,
+                                    @RequestParam(value = "approved", required = false) Boolean isAccept) {
         if (isAccept != null) {
             return bookingService.acceptBooking(id, userId, isAccept);
         } else {
@@ -70,11 +70,8 @@ public class BookingController {
     }
 
     @GetMapping("/owner")
-    public List<BookingResponse> getAllForOwner(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                                                @RequestParam(
-                                                        value = "state",
-                                                        required = false,
-                                                        defaultValue = "ALL") BookingState state) {
+    public List<BookingResponseDto> getAllForOwner(@NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
+                                                   @RequestParam(value = "state", required = false, defaultValue = "ALL") BookingState state) {
         return bookingService.getAllForOwner(userId, state);
     }
 }

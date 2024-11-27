@@ -9,7 +9,7 @@ import ru.practicum.shareit.user.dto.UserResponse;
 import java.time.LocalDateTime;
 
 @Builder
-public record BookingResponse(
+public record BookingResponseDto(
         Long id,
         LocalDateTime start,
         LocalDateTime end,
